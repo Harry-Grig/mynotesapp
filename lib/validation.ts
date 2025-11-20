@@ -11,6 +11,7 @@ export const createTaskSchema = z.object({
   priority: PriorityEnum,
   deadline: z.coerce.date(),
   status: StatusEnum.default("TODO"),
+  userId: z.string().optional(), // Θα το ορίζεις στο API μέσω session
 });
 
 export const updateTaskSchema = z.object({
@@ -21,4 +22,5 @@ export const updateTaskSchema = z.object({
   priority: PriorityEnum,
   deadline: z.coerce.date(),
   status: StatusEnum,
+  userId: z.string().optional(), // Optional γιατί πάλι το παίρνουμε από το session
 });
