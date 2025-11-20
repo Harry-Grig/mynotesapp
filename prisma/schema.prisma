@@ -28,16 +28,6 @@ enum Status {
   DONE
 }
 
-model User {
-  id            String   @id @default(cuid())
-  name          String?
-  email         String?  @unique
-  password      String?  
-  image         String?  //  OAuth (Google, GitHub)
-  tasks         Task[]
-  createdAt     DateTime @default(now())
-}
-
 model Task {
   id          String   @id @default(cuid())
   title       String
@@ -48,6 +38,6 @@ model Task {
   status      Status   @default(TODO)
   createdAt   DateTime @default(now())
 
+  // Clerk user ID
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
 }
