@@ -1,20 +1,14 @@
 "use server";
-import { db } from "@/utils/prisma";
+import db from "@/utils/prisma";
 import { z } from "zod";
 import { createTaskSchema } from "@/lib/validation";
-import { getAuth } from "@clerk/nextjs/server";
-import { headers } from "next/headers";
+import { auth } from "@clerk/nextjs/server";
 
 export async function createTask(formData: z.input<typeof createTaskSchema>) {
   // Validate and coerce incoming data (ensures `deadline` becomes a `Date`)
   const parsed = createTaskSchema.parse(formData);
-  const hdrs = await headers();
-  const headersObj: Record<string, string> = {};
-  for (const [key, value] of hdrs.entries()) {
-    headersObj[key] = value;
-  }
 
-  const { userId } = getAuth({ headers: headersObj } as unknown as any);
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Unauthorized: user is not authenticated");

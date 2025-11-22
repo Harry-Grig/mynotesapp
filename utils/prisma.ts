@@ -1,11 +1,16 @@
 import { PrismaClient } from "@/lib/generated/prisma/client";
-import { PrismaPg } from "@/lib/prisma-adapter-pg";
-import "dotenv/config";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL,
+const globalForPrisma = global as unknown as {
+  prisma: PrismaClient;
+};
+
+const adapter = new PrismaLibSql({
+  url: process.env.DATABASE_URL || "file:./prisma/dev.db",
 });
 
-export const db = new PrismaClient({
-  adapter,
-});
+const db = globalForPrisma.prisma || new PrismaClient({ adapter });
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+
+export default db;
