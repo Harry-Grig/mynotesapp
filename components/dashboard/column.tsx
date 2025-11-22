@@ -1,11 +1,12 @@
-import TaskCard from "@/components/dashboard/taskcard";
+import TaskList from "./tasks-list";
 
-interface Props {
+type Props = {
   title: string;
   count: number;
-}
+  status: string;
+};
 
-export default function Column({ title, count }: Props) {
+export default function Column({ title, count, status }: Props) {
   return (
     <section className="w-[330px] min-w-[280px] bg-[#0f0f0f] border border-neutral-800 rounded-2xl p-4 shadow-md shadow-black/30 flex flex-col transition-all hover:border-neutral-700">
       <header className="flex items-center justify-between mb-4">
@@ -16,9 +17,7 @@ export default function Column({ title, count }: Props) {
       </header>
 
       <div className="flex flex-col gap-3">
-        <TaskCard />
-        <TaskCard />
-        <TaskCard />
+        <TaskList status={status} />
       </div>
     </section>
   );

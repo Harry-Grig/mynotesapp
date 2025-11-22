@@ -1,17 +1,22 @@
 "use client";
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import Header from "@/components/dashboard/header";
-import BoardWrapper from "@/components/dashboard/board-wrapper";
 import TaskModal from "@/components/dashboard/taskmodal";
 import { SignOutButton } from "@clerk/nextjs";
 
-export default function DashboardPage() {
+interface Props {
+  board: ReactNode;
+}
+
+export default function DashboardClient({ board }: Props) {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white p-6">
       <Header onNewTask={() => setIsTaskModalOpen(true)} />
-      <BoardWrapper />
+
+      {/* Server Component rendered here */}
+      {board}
 
       <TaskModal
         open={isTaskModalOpen}
